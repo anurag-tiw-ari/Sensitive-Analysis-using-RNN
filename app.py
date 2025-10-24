@@ -122,17 +122,12 @@ def preprocess_text(text):
     return sequence.pad_sequences([encoded_review], maxlen=500)
 
 def predict_sentiment(review, model):
-    """Predict sentiment for a given review - FIXED LABEL INTERPRETATION"""
+    """Predict sentiment for a given review"""
     preprocessed_input = preprocess_text(review)
     prediction = model.predict(preprocessed_input, verbose=0)
     score = prediction[0][0]
-    
-    # 🔧 FIX: SWAP THE INTERPRETATION
-    # IMDB dataset might be labeled: 0=Positive, 1=Negative 
-    # Instead of the usual: 1=Positive, 0=Negative
-    sentiment = 'Negative' if score > 0.5 else 'Positive'  # SWAPPED!
-    confidence = 1 - score if sentiment == 'Positive' else score  # SWAPPED!
-    
+    sentiment = 'Positive' if score > 0.5 else 'Negative'
+    confidence = score if score > 0.5 else 1 - score
     return sentiment, confidence, score
 
 def quick_model_test(model):
