@@ -1,134 +1,136 @@
-``` markdown
-# Movie Review Sentiment Analysis
+#  Movie Review Sentiment Analysis
 
-A deep learning project that classifies movie reviews as positive or negative using Recurrent Neural Networks (RNN). Built with TensorFlow, Keras, and Streamlit.
+A small, easy-to-run deep learning project that classifies movie reviews as **positive** or **negative** using a Recurrent Neural Network (RNN). Built with TensorFlow, Keras and deployed with Streamlit for a simple interactive web UI.
 
+---
 
+##  Highlights
 
-## Features
+* **Real-time sentiment analysis** through a Streamlit front-end.
+* **RNN-based model** with embedding layer for sequence representation.
+* **Auto-training behaviour**: if a trained model (`simple_rnn_imdb.h5`) is not present, the app trains one automatically.
+* **Designed for reproducibility** — works locally or on Google Colab.
 
-- **Real-time Sentiment Analysis**: Instant classification of movie reviews  
-- **Deep Learning Model**: RNN-based architecture with word embeddings  
-- **Interactive Web Interface**: User-friendly Streamlit application  
-- **High Accuracy**: Strong performance on positive/negative classification  
-- **Auto-Training**: Model trains automatically if not present  
+---
 
-## Technologies Used
+##  Features
 
-- **TensorFlow & Keras** - Deep learning framework  
-- **Streamlit** - Web application deployment  
-- **NumPy** - Numerical computations  
-- **IMDB Dataset** - 50,000 movie reviews for training  
-- **Google Colab** - Development environment  
+* Instant sentiment classification (Positive / Negative) with a confidence score
+* Preprocessing pipeline: tokenization, sequence padding/truncation
+* Dropout and early stopping to reduce overfitting
+* Easy to extend — swap `SimpleRNN` for `LSTM`/`GRU` or upgrade to transformer models (BERT) later
 
-## Installation
+---
 
-1. **Clone the repository**
-   ```bash
-   https://github.com/anurag-tiw-ari/Sensitive-Analysis-using-RNN.git
-   
-````
+##  Technologies
 
-2. **Install dependencies**
+* **TensorFlow / Keras** — model building & training
+* **Streamlit** — interactive web app
+* **NumPy** — numerical operations
+* **IMDB Dataset** (Keras-built-in) — 50,000 labelled reviews
+* **Google Colab** — optional development + free GPU
 
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the application**
-
-   ```bash
-   streamlit run app.py
-   ```
-
-##  Usage
-
-1. **Launch the app** using `streamlit run app.py`
-2. **Enter a movie review** in the text area
-3. **Click "Analyze Sentiment"** to get instant classification
-4. **View results** including sentiment (Positive/Negative) and confidence score
-
-### Example Reviews to Try:
-
-* "This movie was absolutely fantastic! Great acting and storyline."
-* "Terrible waste of time. Poor acting and boring plot."
-* "It was okay, nothing special but not bad either."
-
-##  Project Architecture
-
-```
-Input Text → Preprocessing → Word Embeddings → RNN Layer → Output Classification
-```
-
-### Model Details:
-
-* **Embedding Layer**: 10,000 vocabulary → 128 dimensions
-* **RNN Layer**: 128 units with ReLU activation
-* **Output Layer**: Sigmoid activation for binary classification
-* **Training**: 3 epochs on IMDB dataset with 20% validation split
-
-## Performance
-
-* **Clear Positive Reviews**: 85-95% confidence
-* **Clear Negative Reviews**: 85-95% confidence
-* **Mixed Reviews**: Appropriate uncertainty (50-75% confidence)
-* **Overall Performance**: Strong classification on diverse review types
-
-## Model Optimization
-
-The project demonstrates several machine learning best practices:
-
-* **Hyperparameter Tuning**: Optimized learning rate, batch size, and layer dimensions
-* **Regularization**: Dropout layers to prevent overfitting
-* **Early Stopping**: Prevents overtraining and finds optimal training point
-* **Proper Validation**: Train/validation splits for reliable performance measurement
-
-##  Example Output
-
-```
-Review: "This movie was fantastic! Great acting and amazing story."
-Result: POSITIVE (92% confidence)
-
-Review: "Terrible movie. Waste of time and money."
-Result: NEGATIVE (96% confidence)
-
-Review: "It was okay, nothing special."
-Result:  NEGATIVE (74% confidence)
-```
+---
 
 ##  Project Structure
 
 ```
 movie-sentiment-analysis/
-├── app.py                 # Main Streamlit application
+├── app.py                 # Main Streamlit app
 ├── requirements.txt       # Python dependencies
-├── README.md              # Project documentation
+├── README.md              # Project documentation (this file)
 ├── simple_rnn_imdb.h5     # Trained model (auto-generated)
 └── assets/                # Screenshots and demo images
 ```
 
-##  Quick Start with Google Colab
+---
 
-This project was developed in Google Colab for easy experimentation:
+##  Installation
 
-1. Open [Google Colab](https://colab.research.google.com/)
-2. Upload the project files
-3. Run the code with free GPU acceleration
-4. Experience faster training times (2-5 minutes vs 15+ minutes locally)
+1. Clone the repo
 
-## Key Learnings
+```bash
+git clone https://github.com/anurag-tiw-ari/Sensitive-Analysis-using-RNN.git
+cd Sensitive-Analysis-using-RNN
+```
 
-* **End-to-end ML Pipeline**: From data preprocessing to model deployment
-* **NLP Challenges**: Handling variable text lengths, word embeddings, sequence processing
-* **Model Optimization**: Hyperparameter tuning and regularization techniques
+2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the app
+
+```bash
+streamlit run app.py
+```
+
+> If `simple_rnn_imdb.h5` is missing the app will train a model on the IMDB dataset automatically — training time depends on your machine.
+
+---
+
+##  Usage
+
+1. Start the app with `streamlit run app.py`.
+2. Enter a movie review in the text box.
+3. Click **Analyze Sentiment**.
+4. The app returns `Positive` or `Negative` with a confidence score.
+
+### Example reviews to try
+
+* "This movie was absolutely fantastic! Great acting and storyline."
+* "Terrible waste of time. Poor acting and boring plot."
+* "It was okay, nothing special but not bad either."
+
+---
+
+##  Model Details (example configuration)
+
+* **Vocabulary size**: 10,000 tokens
+* **Embedding dimension**: 128
+* **Sequence length**: 200 tokens (padding/truncation)
+* **RNN layer**: `SimpleRNN` with 128 units (activation: `tanh`)
+  *(You can replace with `LSTM` or `GRU` for better performance on longer dependencies.)*
+* **Output**: Single neuron with `sigmoid` activation for binary classification
+* **Training**: default example uses `epochs=3` and a `validation_split=0.2` (adjust as needed)
+
+---
+
+## Performance & Behavior
+
+* Clear positive/negative reviews: **high confidence (≈85–95%)**
+* Mixed/neutral reviews: **lower confidence (≈50–75%)**
+* Use a larger model (LSTM/BERT) or more data / fine-tuning for better edge-case performance
 
 
+---
 
-## Future Enhancements
+##  Troubleshooting & Tips
 
-* Add support for multiple languages
-* Implement more advanced models (LSTM, BERT)
-* Add batch processing for multiple reviews
-* Include confidence threshold adjustments
-* Add model explainability features
+* **Model trains very slowly**: use Colab or a GPU. Reduce `epochs` or `batch_size` to speed up experimentation.
+* **App crashes with memory errors**: reduce `maxlen` (sequence length) or `vocab_size`, or run training on Colab.
+* **Low accuracy on your custom reviews**: try increasing dataset size, switching to `LSTM`, or fine-tuning a pretrained transformer.
+
+---
+
+##  Quick Colab Start
+
+1. Open Google Colab.
+2. Upload the repository or mount your GitHub.
+3. Install `requirements.txt` and run the notebook cells or `app.py`.
+
+---
+
+##  Future Enhancements
+
+* Multi-language support (tokenizers / language models)
+* Replace SimpleRNN with `LSTM` / `GRU` or a Transformer model (BERT)
+* Add batch-processing / CSV import for bulk predictions
+* Add explainability (LIME / SHAP) to show which words drove the prediction
+* Provide model versioning + small web API for programmatic access
+
+---
+
+
 
